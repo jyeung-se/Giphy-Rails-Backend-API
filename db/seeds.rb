@@ -10,7 +10,7 @@ require 'rest-client'
 require 'json'
 
 def get_gif_from_api
-  url = 'https://api.giphy.com/v1/gifs/trending?api_key=AqKfwVr9s1p2Dfo1k95y3w5N8P96eGoX&limit=10'
+  url = 'https://api.giphy.com/v1/gifs/trending?api_key=AqKfwVr9s1p2Dfo1k95y3w5N8P96eGoX&limit=1000'
   response = RestClient.get(url)
   JSON.parse(response)
 end
@@ -20,8 +20,8 @@ def save_gif_data(hash_array)
 	gifs = []
 	hash_array.each do |hash|
 		each_gif = []
-		each_gif << hash.fetch("title")
-    # each_gif << hash.fetch("images")
+		each_gif << hash["title"]
+    each_gif << hash["images"]["downsized_medium"]["url"]
 		gifs << each_gif
 	end
 	gifs
@@ -29,14 +29,14 @@ end
 
 
 def gifs_info
-	gif_hash_array = get_gif_from_api
+	gif_hash_array = get_gif_from_api["data"]
 	save_gif_data(gif_hash_array)
 end
 
 
 gifs_info.each do |each_gif|
   # Gif.create(title: each_gif[0], img_url: each_gif[1])
-	Gif.create(title: each_gif[0], img_url: 'placeholder')
+	Gif.create(title: each_gif[0], img_url: each_gif[1])
 end
 
 
