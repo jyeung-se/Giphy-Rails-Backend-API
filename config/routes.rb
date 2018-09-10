@@ -5,6 +5,9 @@ Rails.application.routes.draw do
         resources :users
         resources :gifs
         resources :favorites
+
+        get '/trending', to: "gifs#get_trending"
+        get '/more_trending', to: "gifs#get_more_trending"
       end
     end
 

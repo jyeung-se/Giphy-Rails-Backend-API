@@ -11,6 +11,19 @@ class Api::V1::GifsController < ApplicationController
     @gif = Gif.new(gif_params)
   end
 
+  def get_trending
+    url = 'https://api.giphy.com/v1/gifs/trending?api_key=' + ENV["FINGERLICKINGOOD"] + '&limit=25'
+    request = RestClient.get(url)
+    response = JSON.parse(request)
+    render json: response
+  end
+
+  def get_more_trending
+    url = 'https://api.giphy.com/v1/gifs/trending?api_key=' + ENV["FINGERLICKINGOOD"] + '&limit=50'
+    request = RestClient.get(url)
+    response = JSON.parse(request)
+    render json: response
+  end
 
   private
 
